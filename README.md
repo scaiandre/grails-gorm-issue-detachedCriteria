@@ -1,0 +1,1 @@
+# grails-gorm-issue-detachedCriteria
