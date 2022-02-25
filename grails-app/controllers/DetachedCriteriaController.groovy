@@ -21,10 +21,10 @@ class DetachedCriteriaController {
                 grails.gorm.DetachedCriteria hibernateCriteriaBuilder1 = delegate as grails.gorm.DetachedCriteria
                 hibernateCriteriaBuilder1.createAlias("author", "alias_author")
                 hibernateCriteriaBuilder1.projections {
-                    property 'author.id'
-//                    property 'alias_author.id'
+//                    property 'author.id'
+                    property 'alias_author.id'
                 }
-                hibernateCriteriaBuilder1.eq "alias_author.id", 1
+//                hibernateCriteriaBuilder1.eq "alias_author.id", 1
             })
         }
     }
