@@ -87,6 +87,26 @@ class DetachedCriteriaController {
         }
     }
 
+    @GetMapping("/linkWithOrGormCriteriaWorkingFine")
+    String linkWithOrGormCriteriaWorkingFine() {
+        final authors = Author.createCriteria().listDistinct {
+            HibernateCriteriaBuilder hibernateCriteriaBuilder = delegate as HibernateCriteriaBuilder
+            hibernateCriteriaBuilder.projections {
+                hibernateCriteriaBuilder.property "id"
+            }
+            or {
+                hibernateCriteriaBuilder.inList "id", new grails.gorm.DetachedCriteria(Book, "alias_books").build({
+                    grails.gorm.DetachedCriteria hibernateCriteriaBuilder1 = delegate as grails.gorm.DetachedCriteria
+                    hibernateCriteriaBuilder1.createAlias("author", "alias_author")
+                    hibernateCriteriaBuilder1.projections {
+                        property 'author.id'
+                    }
+                })
+                eq "authorName", "author1"
+            }
+        }
+    }
+
     static void propertyInHelper(grails.orm.HibernateCriteriaBuilder hibernateCriteriaBuilder, String propertyIn, grails.gorm.DetachedCriteria detachedCriteria) {
         if (detachedCriteria.associationCriteriaMap.size() > 0) {
             final assocationMap = [:]
